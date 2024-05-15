@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  events-backend:
+    container_name: evbackend
+    image: events-backend:latest
+    working_dir: /app
+    command: uvicorn app.app:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./../.:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - events-db
+
+  events-db:
+    container_name: evdb
+    hostname: evdb
+    image: postgres:13-alpine3.18
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: root
+      POSTGRES_DB: db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pg_data:
