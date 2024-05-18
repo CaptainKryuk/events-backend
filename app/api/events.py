@@ -1,5 +1,7 @@
+import datetime
+
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,11 +15,13 @@ class EventCreateData(BaseModel):
     author_id: int
     invited_id: int
     name: str
+    event_date: datetime.datetime
 
 class EventListEntity(BaseModel):
     id: int
     author_id: int
     invited_id: int
+    event_date: datetime.datetime | None = Field(None)
     name: str
 
 
@@ -44,6 +48,7 @@ async def create_event(
     event = Event(
         author_id=data.author_id,
         invited_id=data.invited_id,
+        event_date=data.event_date,
         name=data.name
     )
     session.add(event)

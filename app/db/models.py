@@ -1,4 +1,4 @@
-from sqlalchemy import MetaData, BigInteger, ForeignKey, Integer
+from sqlalchemy import MetaData, BigInteger, ForeignKey, Integer, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from datetime import datetime
 
@@ -14,6 +14,7 @@ class Event(Base):
 	name: Mapped[str]
 	author_id: Mapped[int] = mapped_column(Integer, ForeignKey('user.id'))
 	invited_id: Mapped[int] = mapped_column(Integer, ForeignKey('user.id'))
+	event_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
 
 	author: Mapped['User'] = relationship(back_populates='my_events', foreign_keys=[author_id])
 	invited: Mapped['User'] = relationship(back_populates='invited_events', foreign_keys=[invited_id])
