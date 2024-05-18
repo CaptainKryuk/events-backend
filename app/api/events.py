@@ -15,13 +15,13 @@ class EventCreateData(BaseModel):
     author_id: int
     invited_id: int
     name: str
-    event_date: datetime.datetime
+    event_date: datetime.date
 
 class EventListEntity(BaseModel):
     id: int
     author_id: int
     invited_id: int
-    event_date: datetime.datetime | None = Field(None)
+    event_date: datetime.date | None = Field(None)
     name: str
 
 
