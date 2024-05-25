@@ -24,6 +24,7 @@ class EventListEntity(BaseModel):
     invited_id: int
     event_date: datetime.date | None = Field(None)
     name: str
+    status: EventStatusEnum
 
 
 @router.get('/list')
