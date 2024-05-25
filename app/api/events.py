@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.connection import get_pgsql_session
-from app.db.models import Event
+from app.db.models import Event, EventStatusEnum
 
 router = APIRouter()
 
@@ -16,6 +16,7 @@ class EventCreateData(BaseModel):
     invited_id: int
     name: str
     event_date: datetime.date
+    status: EventStatusEnum
 
 class EventListEntity(BaseModel):
     id: int
@@ -49,7 +50,8 @@ async def create_event(
         author_id=data.author_id,
         invited_id=data.invited_id,
         event_date=data.event_date,
-        name=data.name
+        name=data.name,
+        status=data.status,
     )
     session.add(event)
     await session.commit()
